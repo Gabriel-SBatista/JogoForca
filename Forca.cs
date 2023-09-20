@@ -118,10 +118,7 @@ namespace JogoForca
             }
 
             this.Palavra = palavra;
-        }
 
-        public void OrganizaPalavra()
-        {
             char[] palavraA = new char[this.Palavra.Length];
             for (int i = 0; i < palavraA.Length; i++)
             {
@@ -130,6 +127,7 @@ namespace JogoForca
 
             this.LayoutPalavra = palavraA;
         }
+
 
         public bool Validacao()
         {

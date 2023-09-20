@@ -7,7 +7,6 @@ internal class Program
         Forca forca = new();
 
         forca.SorteaPalavra();
-        forca.OrganizaPalavra();
 
         bool validou = false;
 
