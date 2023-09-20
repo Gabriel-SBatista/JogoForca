@@ -13,22 +13,23 @@ namespace JogoForca
         public string Palavra { get; private set; }
         public char[] LayoutPalavra { get; private set; }
         public char[] LetrasDig { get; private set; }
+        public char Letra { get; private set; }
 
 
         Random random = new Random();
 
-        public void VerificaLetra(char letra, string palavra)
+        public void VerificaLetra()
         {
             int i = 0;
             int acerto = 0;
-            foreach (char c in palavra)
+            foreach (char c in this.Palavra)
             {
-                if (c == letra)
+                if (c == this.Letra)
                 {
-                    this.LayoutPalavra[i] = letra;
+                    this.LayoutPalavra[i] = this.Letra;
                     acerto++;
                 }
-                if (i == palavra.Length-1 && acerto == 0)
+                if (i == this.Palavra.Length-1 && acerto == 0)
                 {
                
                     this.Erro();
@@ -39,8 +40,16 @@ namespace JogoForca
 
         public void Desenha()
         {
+            Console.Clear();
+            Console.WriteLine("Dica: " + this.Dica);
+            if (this.LetrasDig != null)
+                Console.WriteLine(string.Join(" ", this.LetrasDig));
+            Console.WriteLine(string.Join(" ", this.LayoutPalavra));
+
+
             switch (this.QtdErro)
             {
+
                 case 1:
                     Console.WriteLine("|");
                     Console.WriteLine("|____O");
@@ -89,7 +98,7 @@ namespace JogoForca
 
             string palavra = "";
             int qtd;
-            int dica = random.Next(0, 2);
+            int dica = random.Next(0, 3);
 
             this.Dica = dicas[dica];
             if (dica == 0)
@@ -111,9 +120,9 @@ namespace JogoForca
             this.Palavra = palavra;
         }
 
-        public void OrganizaPalavra(string palavra)
+        public void OrganizaPalavra()
         {
-            char[] palavraA = new char[palavra.Length];
+            char[] palavraA = new char[this.Palavra.Length];
             for (int i = 0; i < palavraA.Length; i++)
             {
                 palavraA[i] = '_';
@@ -128,9 +137,6 @@ namespace JogoForca
 
             if (this.QtdErro == 6)
             {
-                Console.Clear();
-                Console.WriteLine("Dica: " + this.Dica);
-                Console.WriteLine(string.Join(" ", this.LetrasDig));
                 this.Desenha();
                 Console.WriteLine("Que Pena. A palavra era: " + this.Palavra);
                 return true;
@@ -141,9 +147,6 @@ namespace JogoForca
                     break;
                 if (i == this.LayoutPalavra.Length - 1)
                 {
-                    Console.Clear();
-                    Console.WriteLine("Dica: " + this.Dica);
-                    Console.WriteLine(string.Join(" ", this.LetrasDig));
                     this.Desenha();
                     Console.WriteLine(string.Join(" ", this.LayoutPalavra));
                     Console.WriteLine("Parabens!!!");
@@ -154,11 +157,20 @@ namespace JogoForca
             return false;
         }
 
-        public void SalvaLetras(char letra, int i)
-        {   
+        public void SalvaLetras(int i)
+        {
+            Console.WriteLine("Letra: ");
+            string letraDigitada = Console.ReadLine();
+            while (letraDigitada == null)
+            {
+                Console.WriteLine("Letra: ");
+                letraDigitada = Console.ReadLine();
+            }
+            this.Letra = char.ToUpper(Convert.ToChar(letraDigitada));
+
             if (i == 0)
                 this.LetrasDig = new char[this.Palavra.Length + 6];
-            this.LetrasDig[i] = letra;
+            this.LetrasDig[i] = this.Letra;
         }
         public void Erro()
         {
